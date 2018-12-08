@@ -29,3 +29,4 @@ To contribute, clone the repo and run
 
 | Username | Year | Favorite food |
 |----------|------|---------------|
+eisenhuang  2019    Sushiiiii
