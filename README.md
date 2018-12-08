@@ -27,8 +27,6 @@ To contribute, clone the repo and run
 
 ## Contributors 
 
-<<<<<<< HEAD
-
 |  Username      | Year | Favorite food    |
 |----------------|------|------------------|
 | kristelfung    | 2022 |     Sushi        |
