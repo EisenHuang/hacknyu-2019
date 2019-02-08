@@ -6,31 +6,55 @@ We're using Firebase to store data and to do auth.
 
 ## Contributing
 
-To contribute, clone the repo and run
+To contribute, clone the repo and install the dependencies:
 
-    npm install
+```
+$ npm install
+```
 
- To build, run
+To run a local development server that rebuilds on changes:
 
-     npm run dev
+```
+$ npm run dev
+```
 
- The repo works with Node v10.11.0.
+## Deploying
 
- ## Roadmap
- Here's a list of TODOs
-  - Add documentation
-  - Fix Redux with TypeScript (remove @ts-ignore's)
-  - Finish hackathon application part
-  - Add god mode (organizer view)
-  - Rewrite in Rust
-  - Rewrite in Haskell
+Make sure you have the firebase CLI installed, then login to your Firebase account.
+```
+$ npm install -g firebase-tools
+$ firebase login
+```
 
-## Contributors 
+Build the production app:
+```
+$ npm run build
+```
+
+You will need to install dependencies and build the firebase functions (in `hacknyu/functions`):
+```
+$ npm install
+$ npm run build
+```
+
+Then deploy:
+```
+$ firebase deploy
+```
+
+Only deploy [hosting](https://firebase.google.com/docs/cli/#partial_deploys): `firebase deploy --only hosting`
+
+  
+## Contributors
 
 |  Username      | Year | Favorite food    |
 |----------------|------|------------------|
-| kristelfung    | 2022 |     Sushi        |
+| kristelfung    | 2022 | Sushi            |
 | themichaelyang | 2020 | all of the above |
-| Leshyabracaglia  | 2020  |Cheeseburger |
-| eisenhuang | 2019 | Sushi |
+| NicholasLYang  | 2021 | Kimchi-jjigae    |
+| Leshyabracaglia| 2020 | Cheeseburger     |
+| MdAbedin       | 2022 | chocolate        |
+| eisenhuang     | 2019 | Sushi            |
+| yitongw2       | 2020 | Hot pot          |
+| stefancherubin | 2019 | Wings            |
 

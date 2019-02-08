@@ -1,67 +1,47 @@
 import * as React from "react";
-import { Styles } from "react-jss";
-import injectSheet from "react-jss/lib/injectSheet";
+import injectSheet, { WithStyles } from "react-jss";
+import SubwayStop from "./SubwayStop";
+import { STOPS_COUNT } from "../../constants";
 
-interface Props {
+interface Props extends WithStyles<typeof styles> {
   color: string;
-  delay: string;
-  classes: { [s: string]: string };
+  lineStep: number;
+  stopOffsets: number[];
+  lineOffset: number;
+  currentStop: number;
 }
 
-const styles: Styles = {
+const styles = {
   SubwayLine: {
     height: "15px",
-    width: "0px",
+    width: (props: Props) =>
+      `${props.lineStep * (100 / STOPS_COUNT)}vw`,
+    transition: "width 1s",
     margin: "10px 0px 10px 0px",
-    borderRadius: "5%",
-    // @ts-ignore
-    backgroundColor: props => props.color,
-    animation: "line 10s infinite",
-    // @ts-ignore
-    animationDelay: props => props.delay
-  },
-  "@keyframes line": {
-    "0%": {
-      width: "0%"
-    },
-    "9%": {
-      width: "25%"
-    },
-    "18%": {
-      width: "50%"
-    },
-    "27%": {
-      width: "75%"
-    },
-    "36%": {
-      width: "100%"
-    },
-    "45%": {
-      width: "100%"
-    },
-    "54%": {
-      width: "100%"
-    },
-    "63%": {
-      width: "100%"
-    },
-    "72%": {
-      width: "75%"
-    },
-    "81%": {
-      width: "50%"
-    },
-    "90%": {
-      width: "25%"
-    },
-    "100%": {
-      width: "0%"
-    }
+    borderRadius: "10%",
+    position: "relative",
+    backgroundColor: (props: Props) => props.color
   }
 };
 
-const SubwayLine: React.SFC<Props> = ({ classes }) => {
-  return <div className={classes.SubwayLine} />;
+const SubwayLine: React.FunctionComponent<Props> = ({
+  classes,
+  currentStop,
+  stopOffsets
+}) => {
+  let subwayStops = [];
+  // Wow I think this is my first traditional for loop in JS in ages
+  for (let i = 0; i < STOPS_COUNT; i++) {
+    subwayStops.push(
+      <SubwayStop
+        key={i}
+        stopIndex={i}
+        currentStop={currentStop}
+        offset={stopOffsets[i]}
+      />
+    );
+  }
+  return <div className={classes.SubwayLine}>{subwayStops}</div>;
 };
 
 export default injectSheet(styles)(SubwayLine);

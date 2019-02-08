@@ -1,38 +1,55 @@
 import * as React from "react";
 import SubwayIcon from "./SubwayIcon";
-import { Styles } from "react-jss";
-import injectSheet from "react-jss/lib/injectSheet";
-import { Theme } from "../../types";
-import Track from "./Track";
+import injectSheet, { WithStyles } from "react-jss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMedkit,
-  faHeartbeat,
-  faPrescription,
-  faRunning,
-  faSolarPanel,
-  faTree,
-  faGlobeAmericas,
-  faBullhorn,
-  faGraduationCap,
-  faLaptop,
-  faChalkboardTeacher,
-  faCode,
-  faUniversalAccess,
-  faHandPointer,
-  faComment
-} from "@fortawesome/free-solid-svg-icons";
-import { faAccessibleIcon } from "@fortawesome/free-brands-svg-icons";
+import { faMedkit } from "@fortawesome/free-solid-svg-icons/faMedkit";
+import { faHeartbeat } from "@fortawesome/free-solid-svg-icons/faHeartbeat";
+import { faRunning } from "@fortawesome/free-solid-svg-icons/faRunning";
+import { faSolarPanel } from "@fortawesome/free-solid-svg-icons/faSolarPanel";
+import { faTree } from "@fortawesome/free-solid-svg-icons/faTree";
+import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons/faGlobeAmericas";
+import { faBullhorn } from "@fortawesome/free-solid-svg-icons/faBullhorn";
+import { faGraduationCap } from "@fortawesome/free-solid-svg-icons/faGraduationCap";
+import { faLaptop } from "@fortawesome/free-solid-svg-icons/faLaptop";
+import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons/faChalkboardTeacher";
+import { faCode } from "@fortawesome/free-solid-svg-icons/faCode";
+import { faDollarSign } from "@fortawesome/free-solid-svg-icons/faDollarSign";
+import { faPiggyBank } from "@fortawesome/free-solid-svg-icons/faPiggyBank";
+import { faHeart } from "@fortawesome/free-solid-svg-icons/faHeart";
+import { faHandshake } from "@fortawesome/free-solid-svg-icons/faHandshake";
+import { faEthereum } from "@fortawesome/free-brands-svg-icons/faEthereum";
+import { Theme } from "../../ThemeInjector";
+import Track from "./Track";
 
-const styles = (theme: Theme): Styles => ({
+
+type Props = WithStyles<typeof styles>;
+
+const styles = (theme: Theme) => ({
   TrackInfo: {
-    fontSize: "2em",
-    margin: "0 5% 0 5%"
+    width: "80vw",
+    marginBottom: "5%",
+    backgroundColor: theme.secondBackground
+  },
+  header: {
+    fontSize: "2em"
+  },
+  tracks: {
+    display: "grid",
+    gridTemplateColumns: "auto auto",
+    gridTemplateRows: "auto auto",
+    minHeight: "750px"
   },
   description: {
     maxWidth: "800px"
   },
+  info: {
+    fontSize: "1.4rem",
+    lineHeight: "1.4rem",
+    maxWidth: "750px",
+    paddingLeft: "20px"
+  },
   bullet: {
+    fontSize: "1.4rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
@@ -43,206 +60,212 @@ const styles = (theme: Theme): Styles => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "100%",
     minWidth: "50px",
     paddingRight: "20px"
   },
-  "@media (max-width: 800px)": {
+  [`@media(max-width: ${theme.mediumBreakpoint})`]: {
+    tracks: {
+      display: "flex",
+      flexDirection: "column"
+    },
     header: {
       paddingLeft: "20px"
-    },
-    TrackInfo: {
-      margin: "0 3% 15% 3%"
     }
   }
 });
 
-interface Props {
-  classes: { [s: string]: string };
-}
-const TrackInfo: React.SFC<Props> = ({ classes }) => {
+const TrackInfo: React.FunctionComponent<Props> = ({ classes }) => {
   return (
     <div className={classes.TrackInfo}>
-      <h1> Tracks </h1>
-      <p>
-        HackNYU has 4 tracks: Healthcare, Sustainability & Social Impact,
-        Education, Accessiblity & Assistive Technology. Each track has its own
-        focuses and judges.
+      <h1 className={classes.header}> TRACKS </h1>
+      <p className={classes.info}>
+        Every year, HackNYU provides several tracks centered around social good.
+        Each team submits their project to exactly one track. We are proud to
+        present our four tracks for 2019: Health &amp; Well Being,
+        Sustainability, Education, and Financial Development. Note that these
+        descriptions are only to help you brainstorm! You can create whatever
+        you want, as long as it falls into one of these tracks. Ask an organizer
+        if you aren't sure!
       </p>
-      <Track
-        id={0}
-        key={0}
-        name="Heathcare"
-        icons={[
-          <SubwayIcon key={1} color="red" radius={15}>
-            1
-          </SubwayIcon>,
-          <SubwayIcon key={2} color="red" radius={15}>
-            2
-          </SubwayIcon>,
-          <SubwayIcon key={3} color="red" radius={15}>
-            3
-          </SubwayIcon>
-        ]}
-      >
-        <div className={classes.bullet}>
-          <div className={classes.icon}>
-            <FontAwesomeIcon icon={faMedkit} />
-          </div>
-          Find new and innovative healthcare solutions.
-        </div>
-        <div className={classes.bullet}>
-          <div className={classes.icon}>
-            <FontAwesomeIcon icon={faHeartbeat} />
-          </div>
-          Disrupt the way we distribute and pratice medicine.
-        </div>
-        <div className={classes.bullet}>
-          <div className={classes.icon}>
-            <FontAwesomeIcon icon={faPrescription} />
-          </div>
-          Ensure millions get the healthcare and service they deserve.
-        </div>
-        <div className={classes.bullet}>
-          <div className={classes.icon}>
-            <FontAwesomeIcon icon={faRunning} />
-          </div>
-          Educate people on staying active and healthy.
-        </div>
-      </Track>
-      <Track
-        id={1}
-        key={1}
-        name="Sustainability and Social Impact"
-        icons={[
-          <SubwayIcon key={1} color="#6dc066" radius={15}>
-            4
-          </SubwayIcon>,
-          <SubwayIcon key={2} color="#6dc066" radius={15}>
-            5
-          </SubwayIcon>,
-          <SubwayIcon key={3} color="#6dc066" radius={15}>
-            6
-          </SubwayIcon>
-        ]}
-      >
-        <div className={classes.bullet}>
-          <div className={classes.icon}>
-            <FontAwesomeIcon icon={faTree} />
-          </div>
-          Teach people how to be environmentally conscious.
-        </div>
-        <div className={classes.bullet}>
-          <div className={classes.icon}>
-            <FontAwesomeIcon icon={faSolarPanel} />
-          </div>
-          Invent new ways to create and distribute clean energy.
-        </div>
-        <div className={classes.bullet}>
-          <div className={classes.icon}>
-            <FontAwesomeIcon icon={faGlobeAmericas} />
-          </div>
-          Have your hack change the world for the better.
-        </div>
-        <div className={classes.bullet}>
-          <div className={classes.icon}>
-            <FontAwesomeIcon icon={faBullhorn} />
-          </div>
-          Raise awareness about important social issues.
-        </div>
-      </Track>
-      <Track
-        id={2}
-        key={2}
-        name="Education"
-        icons={[
-          <SubwayIcon key={1} color="#007fcc" radius={15}>
-            A
-          </SubwayIcon>,
-          <SubwayIcon key={2} color="#007fcc" radius={15}>
-            C
-          </SubwayIcon>,
-          <SubwayIcon key={3} color="#007fcc" radius={15}>
-            E
-          </SubwayIcon>
-        ]}
-      >
-        <div className={classes.description}>
+      <div className={classes.tracks}>
+        <Track
+          id={0}
+          key={0}
+          name="Health & Well-Being"
+          icons={[
+            <SubwayIcon key={1} color="red" radius={15}>
+              1
+            </SubwayIcon>,
+            <SubwayIcon key={2} color="red" radius={15}>
+              2
+            </SubwayIcon>,
+            <SubwayIcon key={3} color="red" radius={15}>
+              3
+            </SubwayIcon>
+          ]}
+        >
           <div className={classes.bullet}>
             <div className={classes.icon}>
-              <FontAwesomeIcon icon={faGraduationCap} />
+              <FontAwesomeIcon icon={faMedkit} />
             </div>
-            Help educate the next generation of students.
+            Find new and innovative solutions to personal health.
           </div>
           <div className={classes.bullet}>
             <div className={classes.icon}>
-              <FontAwesomeIcon icon={faLaptop} />
+              <FontAwesomeIcon icon={faHeartbeat} />
             </div>
-            Hack student engagement with technology.
+            Disrupt the way we practice self care.
           </div>
           <div className={classes.bullet}>
             <div className={classes.icon}>
-              <FontAwesomeIcon icon={faChalkboardTeacher} />
+              <FontAwesomeIcon icon={faHeart} />
             </div>
-            Work with teachers and educators to bring the classroom into the
-            21st century.
+            Ensure millions get the nutrition and care they deserve.
           </div>
           <div className={classes.bullet}>
             <div className={classes.icon}>
-              <FontAwesomeIcon icon={faCode} />
+              <FontAwesomeIcon icon={faRunning} />
             </div>
-            Spread tech knowledge to underrepresented minorities.
+            Educate people on staying active and healthy, both physically and
+            mentally.
           </div>
-        </div>
-      </Track>
-      <Track
-        id={3}
-        key={3}
-        name={"Accessibility & Assistive Technology"}
-        icons={[
-          <SubwayIcon key={1} color="orange" radius={15}>
-            B
-          </SubwayIcon>,
-          <SubwayIcon key={2} color="orange" radius={15}>
-            D
-          </SubwayIcon>,
-          <SubwayIcon key={3} color="orange" radius={15}>
-            F
-          </SubwayIcon>,
-          <SubwayIcon key={4} color="orange" radius={15}>
-            M
-          </SubwayIcon>
-        ]}
-      >
-        <div className={classes.description}>
+        </Track>
+
+        <Track
+          id={1}
+          key={1}
+          name="Sustainability"
+          icons={[
+            <SubwayIcon key={1} color="#6dc066" radius={15}>
+              4
+            </SubwayIcon>,
+            <SubwayIcon key={2} color="#6dc066" radius={15}>
+              5
+            </SubwayIcon>,
+            <SubwayIcon key={3} color="#6dc066" radius={15}>
+              6
+            </SubwayIcon>
+          ]}
+        >
           <div className={classes.bullet}>
             <div className={classes.icon}>
-              <FontAwesomeIcon icon={faComment} />
+              <FontAwesomeIcon icon={faTree} />
             </div>
-            Collaborate with different fields to help people in their day to day
-            lives.
+            Teach people how to be environmentally conscious.
           </div>
           <div className={classes.bullet}>
             <div className={classes.icon}>
-              <FontAwesomeIcon icon={faHandPointer} />
+              <FontAwesomeIcon icon={faSolarPanel} />
             </div>
-            Design intuitive and innovative ways to interact with technology.
+            Invent new ways to create and distribute clean energy.
           </div>
           <div className={classes.bullet}>
             <div className={classes.icon}>
-              <FontAwesomeIcon icon={faAccessibleIcon} />
+              <FontAwesomeIcon icon={faGlobeAmericas} />
             </div>
-            Combine medicine, occupational therapy and engineering to build new
-            products.
+            Have your hack change the face of environmental sustainability.
           </div>
           <div className={classes.bullet}>
             <div className={classes.icon}>
-              <FontAwesomeIcon icon={faUniversalAccess} />
+              <FontAwesomeIcon icon={faBullhorn} />
             </div>
-            Change people's lives and tackle a diverse set of challenges.
+            Raise awareness about important environmental issues.
           </div>
-        </div>
-      </Track>
+        </Track>
+
+        <Track
+          id={2}
+          key={2}
+          name="Education"
+          icons={[
+            <SubwayIcon key={1} color="#007fcc" radius={15}>
+              A
+            </SubwayIcon>,
+            <SubwayIcon key={2} color="#007fcc" radius={15}>
+              C
+            </SubwayIcon>,
+            <SubwayIcon key={3} color="#007fcc" radius={15}>
+              E
+            </SubwayIcon>
+          ]}
+        >
+          <div className={classes.description}>
+            <div className={classes.bullet}>
+              <div className={classes.icon}>
+                <FontAwesomeIcon icon={faGraduationCap} />
+              </div>
+              Help educate the next generation of students.
+            </div>
+            <div className={classes.bullet}>
+              <div className={classes.icon}>
+                <FontAwesomeIcon icon={faLaptop} />
+              </div>
+              Hack student engagement with technology.
+            </div>
+            <div className={classes.bullet}>
+              <div className={classes.icon}>
+                <FontAwesomeIcon icon={faChalkboardTeacher} />
+              </div>
+              Work with teachers and educators to bring the classroom into the
+              21st century.
+            </div>
+            <div className={classes.bullet}>
+              <div className={classes.icon}>
+                <FontAwesomeIcon icon={faCode} />
+              </div>
+              Spread tech knowledge to underrepresented minorities.
+            </div>
+          </div>
+        </Track>
+
+        <Track
+          id={3}
+          key={3}
+          name="Financial Empowerment"
+          icons={[
+            <SubwayIcon key={1} color="orange" radius={15}>
+              B
+            </SubwayIcon>,
+            <SubwayIcon key={2} color="orange" radius={15}>
+              D
+            </SubwayIcon>,
+            <SubwayIcon key={3} color="orange" radius={15}>
+              F
+            </SubwayIcon>,
+            <SubwayIcon key={4} color="orange" radius={15}>
+              M
+            </SubwayIcon>
+          ]}
+        >
+          <div className={classes.description}>
+            <div className={classes.bullet}>
+              <div className={classes.icon}>
+                <FontAwesomeIcon icon={faDollarSign} />
+              </div>
+              Educate people on being financially responsible.
+            </div>
+            <div className={classes.bullet}>
+              <div className={classes.icon}>
+                <FontAwesomeIcon icon={faPiggyBank} />
+              </div>
+              Invent innovative ways to save money.
+            </div>
+            <div className={classes.bullet}>
+              <div className={classes.icon}>
+                <FontAwesomeIcon icon={faEthereum} />
+              </div>
+              Combine finance and engineering to build new products.
+            </div>
+
+            <div className={classes.bullet}>
+              <div className={classes.icon}>
+                <FontAwesomeIcon icon={faHandshake} />
+              </div>
+              Change people's perception of finance with technology.
+            </div>
+          </div>
+        </Track>
+      </div>
     </div>
   );
 };

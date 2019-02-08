@@ -1,38 +1,53 @@
-import * as React from "react"
-import {Theme} from "../../types";
-import injectSheet from "react-jss/lib/injectSheet";
-import {ReactNode} from "react";
+import * as React from "react";
+import injectSheet, { WithStyles } from "react-jss";
+import { ReactNode } from "react";
+import { Theme } from "../../ThemeInjector";
 
 const styles = (theme: Theme) => ({
   button: {
-    //@ts-ignore
     width: (props: Props) => props.width,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: theme.submitButton,
-    color: theme.secondFont,
+    color: theme.fontColor,
+    fontWeight: "350",
     margin: "5px",
-    fontVariant: "small-caps",
-    padding: "10px",
+    padding: "12px 25px",
     border: "none",
-    fontSize: "1.2em"
-  },
-})
+    fontSize: "0.9em",
+    transition: "background-color 0.4s, transform 200ms",
+    borderRadius: "5px",
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: theme.submitButtonHover,
+      transform: "scale(1.1)"
+    },
+    '&:disabled': {
+      backgroundColor: theme.submitButtonDeactivated,
+      cursor: "not-allowed"
+    }
+  }
+});
 
-interface Props {
-  classes: { [s: string]: string },
-  children: ReactNode,
+interface Props extends WithStyles<typeof styles> {
+  children?: ReactNode;
   type?: string;
   width?: string;
-  onClick: () => any;
+  className?: string;
+  disabled?: boolean;
 }
 
-const Button: React.SFC<Props> = ({ classes, children, ...props }) => {
+const Button: React.FunctionComponent<Props & React.HTMLAttributes<HTMLButtonElement>> = props => {
+  const { classes, children, className } = props;
   return (
-    <button {...props} className={classes.button}> {children} </button>
-  )
-}
+    <div className={className}>
+    <button {...props} className={classes.button}>
+      {children}
+    </button>
+    </div>
+  );
+};
 
 //@ts-ignore
 export default injectSheet(styles)(Button);

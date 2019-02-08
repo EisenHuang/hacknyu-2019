@@ -1,24 +1,26 @@
 import * as React from "react";
-import injectSheet, { Styles } from "react-jss";
+import injectSheet, { WithStyles } from "react-jss";
 import { User } from "firebase";
 
-const styles: Styles = {
+
+const styles = {
   Avatar: {
     width: "50px",
     height: "50px",
     padding: "10px",
-    borderRadius: "50%"
+    borderRadius: "50%",
+    objectFit: "cover"
   },
 };
 
-interface Props {
-  classes: { [s: string]: string };
+interface Props extends WithStyles<typeof styles> {
   user: User;
 }
 
 // Earth Water Fire Air
-const Avatar: React.SFC<Props> = ({ classes, user }) => {
-  return <img className={classes.Avatar} src={user.photoURL} />;
+const Avatar: React.FunctionComponent<Props> = ({ classes, user }) => {
+  const url = user.photoURL || "/img/blank-profile.png";
+  return <img className={classes.Avatar} src={url} />;
 };
 
 export default injectSheet(styles)(Avatar);

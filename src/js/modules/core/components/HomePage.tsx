@@ -1,193 +1,93 @@
 import * as React from "react";
-import injectSheet, { Styles } from "react-jss";
-import { State, Theme } from "../../types";
-import SubwayLine from "./SubwayLine";
-import ApplyButton from "./ApplyButton";
+import injectSheet, { WithStyles } from "react-jss";
+import Hero from "./Hero";
 import TrackInfo from "./TrackInfo";
-import Timeline from "./Timeline";
-import { connect } from "react-redux";
-import { compose } from "redux";
 import AboutSection from "./AboutSection";
-import Section from "./Section";
-// @ts-ignore
-import { Scrollama, Step } from "react-scrollama";
-import { trackColors } from "../../ThemeInjector";
+import Timeline from "./Timeline";
+import AnimatedSubwayLines from "./AnimatedSubwayLines";
+import FAQ from "./FAQ";
+import { Theme } from "../../ThemeInjector";
+import SponsorshipSection from "./SponsorshipSection";
+import Schedule from "./Schedule";
 
-const styles = (theme: Theme): Styles => ({
+type Props = WithStyles<typeof styles>;
+
+const styles = (theme: Theme) => ({
   HomePage: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: theme.backgroundColor,
-    alignItems: "center"
+    alignItems: "center",
+    width: "100vw"
   },
   aboutSection: {
     backgroundColor: theme.secondBackground,
     color: theme.secondFont
   },
-  activitiesSection: {
+  timelineSection: {
     background: `linear-gradient(${theme.secondBackground}, ${
-      theme.thirdBackground
+      theme.secondBackground
     })`,
-    color: theme.secondFont
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "400px"
   },
   tracksSection: {
-    backgroundColor: theme.thirdBackground,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.secondBackground,
     color: theme.secondFont
   },
-  lines: {
-    display: "flex",
-    minHeight: "300px",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    padding: "20px 0 0 0",
-    width: "100%"
+  faqSection: {
+    backgroundColor: theme.secondBackground,
+    color: theme.fontColor
   },
-  quote: {
-    fontSize: "3em",
-    margin: "0 5% 0 5%",
-    maxWidth: "400px"
+  scheduleSection: {
+    backgroundColor: theme.secondBackground,
+    color: theme.secondFont
+  },
+  sponsorshipSection: {
+    backgroundColor: theme.secondBackground,
+    color: theme.secondFont
+  },
+  curvedTop: {
+    width: "100vw",
+    transform: "translateY(0.75vh)"
   },
   info: {
     display: "flex",
-    flexDirection: "column",
-    // Small hack for Chrome. Not sure why.
-    backgroundColor: theme.thirdBackground
-  },
-  timeline: {
-    width: "20vw"
-  },
-  quoteAuthor: {
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "flex-end"
-  },
-  hiddenTrip: {
     width: "100vw",
-    height: "10px",
-    position: "relative",
-    fontSize: "10px",
-    color: theme.secondBackground,
-    top: "60vh"
+    flexDirection: "column"
   }
 });
 
-interface HomePageProps {
-  classes: { [s: string]: string };
-  viewportWidth: number;
-}
-interface HomePageState {
-  activeBlocks: number;
-}
-
-interface StepData {
-  element: HTMLElement;
-  data: number;
-  direction: string;
-}
-
-class HomePage extends React.Component<HomePageProps, HomePageState> {
-  constructor(props: HomePageProps) {
-    super(props);
-    this.state = {
-      activeBlocks: -1
-    };
-  }
-
-  handleStepEnter = ({ element, data, direction }: StepData) => {
-    if (direction === "down") {
-      this.setState({ activeBlocks: data });
-    }
-  };
-
-  handleStepExit = ({ element, data, direction }: StepData) => {
-    if (direction === "up") {
-      this.setState({ activeBlocks: data - 1 });
-    }
-  };
-
-  handleTopEnter = ({ element, data, direction }: StepData) => {
-    if (direction === "up") {
-      this.setState({ activeBlocks: -1 });
-    }
-  };
-
-  render() {
-    let { classes } = this.props;
-
-    return (
-      <div className={classes.HomePage}>
-        <ApplyButton />
-        <div className={classes.lines}>
-          <SubwayLine delay="-2s" color={trackColors.green} />
-          <SubwayLine delay="-1.6s" color={trackColors.red} />
-          <SubwayLine delay="-1.2s" color={trackColors.blue} />
-          <SubwayLine delay="-2.4s" color={trackColors.orange} />
+const HomePage: React.FunctionComponent<Props> = ({ classes }) => {
+  return (
+    <div className={classes.HomePage}>
+      <Hero />
+      <AnimatedSubwayLines />
+      <div className={classes.info}>
+        <div className={classes.aboutSection}>
+          <AboutSection />
         </div>
-        <div className={classes.hiddenTrip}>
-          <Scrollama onStepEnter={this.handleTopEnter}>
-            <Step data={0}>
-              <div> </div>
-            </Step>
-          </Scrollama>
+        <div className={classes.tracksSection}>
+          <TrackInfo />
         </div>
-        <div className={classes.info}>
-          <Scrollama
-            onStepEnter={this.handleStepEnter}
-            onStepExit={this.handleStepExit}
-          >
-            <Step data={0} key={0}>
-              <div className={classes.aboutSection}>
-                <Section
-                  activeBlocks={this.state.activeBlocks}
-                  infoBlock={{
-                    id: 0,
-                    text: "January 23rd: Sign Up",
-                    color: trackColors.red
-                  }}
-                >
-                  <AboutSection />
-                </Section>
-              </div>
-            </Step>
-            <Step data={1} key={1}>
-              <div className={classes.activitiesSection}>
-                <Section
-                  activeBlocks={this.state.activeBlocks}
-                  infoBlock={{
-                    id: 1,
-                    text: "February 29th: Get admissions result",
-                    color: trackColors.orange
-                  }}
-                >
-                  <div className={classes.quote}>
-                    <p>Inspirational quote here!</p>
-                    <span className={classes.quoteAuthor}>
-                      --- Albert Einstein
-                    </span>
-                  </div>
-                </Section>
-              </div>
-            </Step>
-            <Step data={2}>
-              <div className={classes.tracksSection}>
-                <Section
-                  activeBlocks={this.state.activeBlocks}
-                  infoBlock={{
-                    id: 2,
-                    text: "March 23rd: Go to hackathon!",
-                    color: trackColors.green
-                  }}
-                >
-                  <TrackInfo />
-                </Section>
-              </div>
-            </Step>
-          </Scrollama>
+        <div className={classes.faqSection}>
+          <img className={classes.curvedTop} src="/img/semicircle.svg" />
+          <FAQ />
+        </div>
+        <div className={classes.scheduleSection}>
+          <Schedule />
+        </div>
+        <div className={classes.sponsorshipSection}>
+          <SponsorshipSection />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default injectSheet(styles)(HomePage);
